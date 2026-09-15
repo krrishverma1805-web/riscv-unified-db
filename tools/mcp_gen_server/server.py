@@ -441,9 +441,8 @@ async def search_parameters(args: dict[str, Any]):
     results: list[dict[str, Any]] = []
 
     for p in sorted(_iter_parameter_yaml_paths()):
-        try:
-            data = _load_yaml(p)
-        except Exception:
+        data = _try_load_yaml(p)
+        if data is None:
             continue
 
         if data.get("kind") != "parameter":
